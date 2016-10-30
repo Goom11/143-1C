@@ -1,0 +1,1 @@
+We pair programmed. We googled for PHP documentation and SQL documentation.
