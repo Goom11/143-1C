@@ -1,23 +1,6 @@
 <?php
 
-// If you call this method
-//   make sure to free the result after you are done with it!!
-function runQuery($query) {
-    $db = new mysqli('localhost', 'cs143', '', 'CS143');
-    if($db->connect_errno > 0){
-        die('Unable to connect to database [' . $db->connect_error . ']');
-    }
-
-    $rv = "failed";
-    if (!($rs = $db->query($query))) {
-        $rv = "failed";
-        $rs->free();
-    } else {
-        $rv = $rs;
-    }
-    $db->close();
-    return $rv;
-}
+include 'Helpers.php';
 
 function movieInformation($identifier) {
     if ($identifier) {
@@ -26,7 +9,11 @@ function movieInformation($identifier) {
         if ($queryResult === "failed") {
             return "failed";
         }
-        $queryRow = $queryResult->fetch_assoc();
+        $queryRows = getAllRows($queryResult);
+        if (count($queryRows) < 1) {
+            return array();
+        }
+        $queryRow = $queryRows[0];
         $movieInformation = array(
             "title" => $queryRow["title"],
             "year" => $queryRow["year"],
@@ -50,7 +37,11 @@ $movieInformation = movieInformation($_GET["identifier"]);
 <body bgcolor=white>
 <h1><?php print "$title"; ?></h1>
 
-<?php if (!empty($movieInformation)) { ?>
+<?php
+if ($movieInformation === "failed") {
+    print '<h2>Invalid Identifier</h2>';
+} else if (!empty($movieInformation)) {
+?>
     <h2>Movie Information</h2>
     <table border="1" cellpadding="2" cellspacing="1">
         <thead>

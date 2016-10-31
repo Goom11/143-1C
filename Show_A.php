@@ -1,30 +1,6 @@
 <?php
 
-function getAllRows($queryResult) {
-    $rows = [];
-    while ($row = $queryResult->fetch_assoc()) {
-        $rows[] = $row;
-    }
-    return $rows;
-}
-
-// If you call this method
-//   make sure to free the result after you are done with it!!
-function runQuery($query) {
-    $db = new mysqli('localhost', 'cs143', '', 'CS143');
-    if($db->connect_errno > 0){
-        die('Unable to connect to database [' . $db->connect_error . ']');
-    }
-
-    if (!($rs = $db->query($query))) {
-        $rv = "failed";
-        $rs->free();
-    } else {
-        $rv = $rs;
-    }
-    $db->close();
-    return $rv;
-}
+include 'Helpers.php';
 
 function actorInformation($identifier) {
     if ($identifier) {
@@ -90,7 +66,11 @@ $movieRoleInformation = movieRoleInformation($_GET["identifier"]);
 <body bgcolor=white>
 <h1><?php print "$title"; ?></h1>
 
-<?php if (!empty($actorInformation)) { ?>
+<?php
+if ($actorInformation === "failed") {
+    print '<h2>Invalid Identifier</h2>';
+} else if (!empty($actorInformation)) {
+?>
 <h2>Actor Information:</h2>
 <table border="1" cellpadding="2" cellspacing="1">
     <thead>
@@ -116,7 +96,10 @@ $movieRoleInformation = movieRoleInformation($_GET["identifier"]);
 </table>
 <?php } ?>
 
-<?php if (!empty($movieRoleInformation)) { ?>
+<?php
+if ($movieRoleInformation === "failed") {
+} else if (!empty($movieRoleInformation)) {
+?>
 <h2>Actor's Movies and Role:</h2>
 <table border="1" cellpadding="2" cellspacing="1">
     <thead>
