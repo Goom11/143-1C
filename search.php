@@ -55,6 +55,7 @@ if ($query) {
         return "(title LIKE '%$escaped_str%')";
     }, $query_tokens);
 
+
     $actorQuery = "SELECT * FROM Actor WHERE" . buildClause($actorParameters);
     $movieQuery = "SELECT * FROM Movie WHERE" . buildClause($movieParameters);
 
@@ -75,10 +76,13 @@ if ($query) {
         }
         print '</tr>';
         while($row = $rs->fetch_assoc()) {
+            $id = $row['id'];
             print '<tr align=center>';
             foreach($row as $_ => $value) {
                 print '<td>';
+                print "<a href='Show_A.php?identifier=$id'>";
                 print $value;
+                print '</a>';
                 print '</td>';
             }
             print '</tr>';
@@ -104,16 +108,15 @@ if ($query) {
         }
         print '</tr>';
         while($row = $rs->fetch_assoc()) {
+            print '<td>';
             print '<tr align=center>';
             foreach($row as $_ => $value) {
-                print '<td>';
                 print $value;
                 print '</td>';
             }
             print '</tr>';
         }
         print '</table>';
-        print "<br><hr>";
     }
 
     $rs->free();
