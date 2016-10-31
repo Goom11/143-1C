@@ -111,11 +111,11 @@ if ($movieRoleInformation === "failed") {
 
     <tbody>
     <?php
-    foreach($movieRoleInformation as $id => $row) {
+    foreach($movieRoleInformation as $mid => $row) {
         print '<tr>';
         foreach ($row as $info) {
             print '<td>';
-            print "<a href='Show_M.php?identifier=$id'>";
+            print "<a href='Show_M.php?identifier=$mid'>";
             print $info;
             print '</a>';
             print '</td>';
