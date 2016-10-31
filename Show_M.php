@@ -1,36 +1,11 @@
-<?php
-    function buildClause($strarr) {
-        $last = end($strarr);
-        $clause = "";
-
-        foreach ($strarr as $cur) {
-            if ($cur == $last) {
-                $clause = $clause . " " . $cur;
-            } else {
-                $clause = $clause . " " . $cur . " AND";
-            }
-        }
-        return $clause;
-    };
-?>
-
-
-
 <html>
 <head>
     <?php $title = "IMDB: I(ncomplete and Dated) Movie DB" ?>
     <title><?php print "$title"; ?></title>
 </head>
 
-
 <body bgcolor=white>
 <h1><?php print "$title"; ?></h1>
-
-<h2>Search Actors and Movies</h2>
-<form action="./search.php" method="GET">
-    <input type="text" name="query" size="40" <br>
-    <input type="submit" value="Submit">
-</form>
 
 <?php
 
@@ -55,16 +30,18 @@ if ($query) {
         return "(title LIKE '%$escaped_str%')";
     }, $query_tokens);
 
+    var_dump($actorParameters);
+    var_dump($query_tokens);
+
     $actorQuery = "SELECT * FROM Actor WHERE" . buildClause($actorParameters);
     $movieQuery = "SELECT * FROM Movie WHERE" . buildClause($movieParameters);
 
-    print "<br><hr>";
+
 
     if (!($rs = $db->query($actorQuery))) {
         $errmsg = $db->error;
-        print "Query failed: $errmsg <br/>";
+        print "Query failed: $errmsg <br />";
     } else {
-        print "<h2> Actor Results </h2> <br/>";
         print '<table border="1" cellpadding="2" cellspacing="1">';
         $fields = $rs->fetch_fields();
         print '<tr align="center">';
@@ -93,7 +70,6 @@ if ($query) {
         $errmsg = $db->error;
         print "Query failed: $errmsg <br />";
     } else {
-        print "<h2> Movie Results </h2> <br/>";
         print '<table border="1" cellpadding="2" cellspacing="1">';
         $fields = $rs->fetch_fields();
         print '<tr align="center">';
@@ -120,10 +96,14 @@ if ($query) {
     $db->close();
 
 
-}
+} ?>
 
+<h2>Search Actors and Movies</h2>
+    <form action="./search.php" method="GET">
+        <input type="text" name="query" size="40" <br>
+        <input type="submit" value="Submit">
+    </form>
 
-?>
 
 </body>
 </html>
