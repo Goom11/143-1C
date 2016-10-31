@@ -62,12 +62,13 @@ function movieRoleInformation($identifier) {
         $queryRows = getAllRows($queryResult);
         $queryResult->free();
 
-        $movieRoleInformation = array_map(function ($row) {
-            return array(
-                "role" => $row["role"],
-                "title" => $row["title"],
+        $movieRoleInformation = array();
+        foreach ($queryRows as $movieRole) {
+            $movieRoleInformation[$movieRole["mid"]] = array(
+                "role" => $movieRole["role"],
+                "title" => $movieRole["title"],
             );
-        }, $queryRows);
+        }
         return $movieRoleInformation;
     }
     return array();
@@ -127,11 +128,13 @@ $movieRoleInformation = movieRoleInformation($_GET["identifier"]);
 
     <tbody>
     <?php
-    foreach($movieRoleInformation as $row) {
+    foreach($movieRoleInformation as $id => $row) {
         print '<tr>';
         foreach ($row as $info) {
             print '<td>';
+            print "<a href='Show_M.php?identifier=$id'>";
             print $info;
+            print '</a>';
             print '</td>';
         }
         print '</tr>';
