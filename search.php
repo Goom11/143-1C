@@ -108,9 +108,9 @@ if ($query) {
         }
         print '</tr>';
         while($row = $rs->fetch_assoc()) {
-            print '<td>';
             print '<tr align=center>';
             foreach($row as $_ => $value) {
+                print '<td>';
                 print $value;
                 print '</td>';
             }
