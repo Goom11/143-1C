@@ -25,4 +25,25 @@ function getAllRows($queryResult) {
     return $rows;
 }
 
+function nextID($table) {
+    // Get the current maximum id
+    $query = "SELECT MAX(id) FROM $table;";
+    $queryResult = runQuery($query);
+    $queryRows = getAllRows($queryResult);
+    $currentId = $queryRows[0]["MAX(id)"];
+
+    // Update the id of the table to be the next consecutive id
+    $nextId = $currentId + 1;
+    $updateQuery = "UPDATE $table SET id=$nextId";
+    runQuery($updateQuery);
+    return $currentId;
+}
+
+function nextMovieId() {
+    return nextID("MaxMovieID");
+}
+
+function nextPersonID() {
+    return nextID("MaxPersonID");
+}
 ?>

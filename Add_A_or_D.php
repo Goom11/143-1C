@@ -1,3 +1,7 @@
+<?php
+    include "Helpers.php";
+?>
+
 <html>
 <head>
     <?php $title = "IMDB: I(ncomplete and Dated) Movie DB" ?>
@@ -19,11 +23,73 @@
     Male <input type="radio" name="sex" value="male" checked>
     Female <input type="radio" name="sex" value="female">
     Date of Birth <input type="date" name="dob">
-    Date of Death <input type="date" name="dod">
+    Date of Death (may be blank) <input type="date" name="dod">
     <input type="submit" value="Add">
 </form>
 
 <?php
+    // Get all the fields
+    $pType = $_GET["pType"];
+    $fname = $_GET["fname"];
+    $lname = $_GET["lname"];
+    $sex = $_GET["sex"];
+    $dob = $_GET["dob"];
+    $dod = $_GET["dod"];
+    $wasSubmitted = $_GET["wasSubmitted"];
+
+    // Ensure that fields are completed
+    if ($pType && $fname && $lname && $sex && $dob ) {
+
+        // Input error checking
+        if (strlen($fname) > 30) {
+            print "<h3> $fname is invalid. First names must be less than 30 characters. </h3>";
+            exit();
+        }
+        if (strlen($lname) > 30) {
+            print "<h3> $lname is invalid. First names must be less than 30 characters. </h3>";
+            exit();
+        }
+
+        if ($pType != "Actor" && $pType != "Director") {
+            print "<h3> $pType is invalid. Person type must either be Actor or Director.</h3>";
+            exit();
+        }
+        if ($sex != "male" && $sex != "female") {
+            print "<h3> $sex is invalid. Sex must either be male or female.</h3>";
+            exit();
+        }
+        if (!(bool)strtotime($dob)) {
+            print "<h3> $dob is in an invalid date format.</h3>";
+            exit();
+        }
+
+        if (($dod && !(bool)strtotime($dod))) {
+            print "<h3> $dod is in an invalid date format.</h3>";
+            exit();
+        }
+
+
+
+    }
+
+    else if (!empty($_GET)) {
+        if (!$pType) {
+            print "<h3> Must input type of person.</h3>";
+        }
+        if (!$fname) {
+            print "<h3> Must first name of person.</h3>";
+        }
+        if (!$lname) {
+            print "<h3> Must last name of person.</h3>";
+        }
+        if (!$sex) {
+            print "<h3> Must input sex of person.</h3>";
+        }
+        if (!$dob) {
+            print "<h3> Must input the date of birth.</h3>";
+        }
+    }
+
 
 
 ?>
