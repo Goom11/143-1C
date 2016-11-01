@@ -79,17 +79,19 @@
 
         $id = nextPersonID();
 
-        $query = "INSERT INTO $pType VALUES (?, ?, ?, ?, ?, ?)";
-        $query = $db->prepare($query);
-        $query->bind_param("isssss", $id, $lname, $fname, $sex, $dob, $dod);
-        var_dump($query);
-        if (!$query->execute()) {
-            print $query->error;
+        $actorInsert = "INSERT INTO $pType VALUES (?, ?, ?, ?, ?, ?)";
+        $actorInsert = $db->prepare($actorInsert);
+        $actorInsert->bind_param("isssss", $id, $lname, $fname, $sex, $dob, $dod);
+        var_dump($actorInsert);
+        if (!$actorInsert->execute()) {
+            print $actorInsert->error;
         }
         else {
             print "<h3>Insert of $pType $fname $lname successful.</h3>";
         }
 
+        $db->close();
+        $actorInsert->free_result();
     }
 
     else if (!empty($_GET)) {

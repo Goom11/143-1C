@@ -91,6 +91,9 @@ if ($title && $company && $year && $rating && $genre) {
         print "<h3>Insert of $title successful.</h3>";
     }
 
+    $db->close();
+    $movieInsert->free_result();
+    $genreInsert->free_result();
 
 
 }
