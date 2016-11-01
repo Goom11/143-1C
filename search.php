@@ -42,14 +42,13 @@ if (!empty($_GET)) {
         die('Unable to connect to database [' . $db->connect_error . ']');
     }
 
+    // Deal with multiple space characters. Also applies set semantics to query tokens.
     $multipleSpaces = preg_match('/  /', $query) || ($query == " ");
     $query_tokens = explode(" ", $query);
     $query_tokens = array_unique($query_tokens);
     if ($multipleSpaces) {
         array_push($query_tokens, " ");
     }
-    var_dump($query_tokens);
-    var_dump($multipleSpaces);
 
     // Escape the tokens and then build the appropriate constraints from the tokens
     $actorParameters = array_map(function($str) use ($db) {
