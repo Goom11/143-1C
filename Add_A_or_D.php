@@ -20,8 +20,8 @@
     </select>
     First Name <input type="text" name="fname" size="20">
     Last Name <input type="text" name="lname" size="20">
-    Male <input type="radio" name="sex" value="male" checked>
-    Female <input type="radio" name="sex" value="female">
+    Male <input type="radio" name="sex" value="Male" checked>
+    Female <input type="radio" name="sex" value="Female">
     Date of Birth <input type="date" name="dob">
     Date of Death (may be blank) <input type="date" name="dod">
     <input type="submit" value="Add">
@@ -35,7 +35,6 @@
     $sex = $_GET["sex"];
     $dob = $_GET["dob"];
     $dod = $_GET["dod"];
-    $wasSubmitted = $_GET["wasSubmitted"];
 
     // Ensure that fields are completed
     if ($pType && $fname && $lname && $sex && $dob ) {
@@ -54,7 +53,7 @@
             print "<h3> $pType is invalid. Person type must either be Actor or Director.</h3>";
             exit();
         }
-        if ($sex != "male" && $sex != "female") {
+        if ($sex != "Male" && $sex != "Female") {
             print "<h3> $sex is invalid. Sex must either be male or female.</h3>";
             exit();
         }
@@ -68,7 +67,28 @@
             exit();
         }
 
+        // If $dod doesn't exist, makes it null.
+        if (!$dod) {
+             $dod = null;
+        }
 
+        $db = new mysqli('localhost', 'cs143', '', 'CS143');
+        if($db->connect_errno > 0){
+            die('Unable to connect to database [' . $db->connect_error . ']');
+        }
+
+        $id = nextPersonID();
+
+        $query = "INSERT INTO $pType VALUES (?, ?, ?, ?, ?, ?)";
+        $query = $db->prepare($query);
+        $query->bind_param("isssss", $id, $lname, $fname, $sex, $dob, $dod);
+        var_dump($query);
+        if (!$query->execute()) {
+            print $query->error;
+        }
+        else {
+            print "<h3>Insert of $pType $fname $lname successful.</h3>";
+        }
 
     }
 

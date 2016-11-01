@@ -35,7 +35,7 @@
 <?php
 
 $query = $_GET["query"];
-if ($query) {
+if (!empty($_GET)) {
 
     $db = new mysqli('localhost', 'cs143', '', 'CS143');
     if($db->connect_errno > 0){
