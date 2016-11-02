@@ -37,7 +37,28 @@ include "Helpers.php";
         <option> NC-17 </option>
         <option> Unrated </option>
     </select> </p>
-    <p> Genre <input type="text" name="genre"> </p>
+    <p>
+        Genre:
+        <input type="checkbox" name="genre[]" value="Action"> Action </input>
+        <input type="checkbox" name="genre[]" value="Adult"> Adult </input>
+        <input type="checkbox" name="genre[]" value="Adventure"> Adventure </input>
+        <input type="checkbox" name="genre[]" value="Animation"> Animation </input>
+        <input type="checkbox" name="genre[]" value="Comedy"> Comedy </input> <br>
+        <input type="checkbox" name="genre[]" value="Crime"> Crime </input>
+        <input type="checkbox" name="genre[]" value="Documentary"> Documentary </input>
+        <input type="checkbox" name="genre[]" value="Drama"> Drama </input>
+        <input type="checkbox" name="genre[]" value="Family"> Family </input>
+        <input type="checkbox" name="genre[]" value="Fantasy"> Fantasy </input> <br>
+        <input type="checkbox" name="genre[]" value="Horror"> Horror </input>
+        <input type="checkbox" name="genre[]" value="Musical"> Musical </input>
+        <input type="checkbox" name="genre[]" value="Mystery"> Mystery </input>
+        <input type="checkbox" name="genre[]" value="Romance"> Romance </input>
+        <input type="checkbox" name="genre[]" value="Sci-Fi"> Sci-Fi </input> <br>
+        <input type="checkbox" name="genre[]" value="Short"> Short </input>
+        <input type="checkbox" name="genre[]" value="Thriller"> Thriller </input>
+        <input type="checkbox" name="genre[]" value="War"> War </input>
+        <input type="checkbox" name="genre[]" value="Western"> Western </input>
+    </p>
     <input type="submit" value="Add">
 </form>
 
@@ -68,6 +89,7 @@ if ($title && $company && $year && $rating && $genre) {
         exit();
     }
 
+    var_dump($genre);
 
     // Establish database connection
     $db = new mysqli('localhost', 'cs143', '', 'CS143');
@@ -89,22 +111,24 @@ if ($title && $company && $year && $rating && $genre) {
         exit();
     }
 
-    $genreInsert = "INSERT INTO MovieGenre VALUES (?, ?)";
-    $genreInsert = $db->prepare($genreInsert);
-    $genreInsert->bind_param("is", $id, $genre);
+    foreach ($genre as $elem) {
+        $genreInsert = "INSERT INTO MovieGenre VALUES (?, ?)";
+        $genreInsert = $db->prepare($genreInsert);
+        $genreInsert->bind_param("is", $id, $genre);
 
-    if (!$genreInsert->execute()) {
-        print "Error inserting movie genre: ";
-        print $genreInsert->error;
-        exit();
+        if (!$genreInsert->execute()) {
+            print "Error inserting movie genre: ";
+            print $genreInsert->error;
+            exit();
+        }
+        $genreInsert->free_result();
     }
-    else {
-        print "<h3>Insert of $title successful.</h3>";
-    }
+
+    print "<h3>Insert of $title successful.</h3>";
 
     $db->close();
     $movieInsert->free_result();
-    $genreInsert->free_result();
+
 
 
 }
