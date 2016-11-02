@@ -4,8 +4,7 @@ include 'Helpers.php';
 
 function movieInformation($identifier) {
     if ($identifier) {
-        $query = "SELECT * FROM Movie M, MovieGenre MG" .
-            " WHERE M.id = MG.mid AND id = " . $identifier . ';';
+        $query = "SELECT * FROM Movie WHERE id = " . $identifier . ';';
         $queryResult = runQuery($query);
         if ($queryResult === "failed") {
             return "failed";
@@ -20,7 +19,6 @@ function movieInformation($identifier) {
             "year" => $queryRow["year"],
             "rating" => $queryRow["rating"],
             "company" => $queryRow["company"],
-            "genre" => $queryRow["genre"],
         );
         $queryResult->free();
         return $movieInformation;
@@ -100,12 +98,32 @@ function getMovieDirectors($identifier) {
     return array();
 }
 
+function getMovieGenres($identifier) {
+    if ($identifier) {
+        $query = "SELECT * FROM Movie M, MovieGenre MG" .
+            " WHERE M.id = MG.mid AND M.id = " . $identifier . ";";
+        $queryResult = runQuery($query);
+        if ($queryResult === "failed") {
+            return "failed";
+        }
+        $queryRows = getAllRows($queryResult);
+        $queryResult->free();
+        $genres = array();
+        foreach ($queryRows as $row) {
+            $genres[] = $row["genre"];
+        }
+        return $genres;
+    }
+    return array();
+}
+
 $identifier = $_GET["identifier"];
 $movieInformation = movieInformation($identifier);
 $actorsInMovie = actorsInMovie($identifier);
 $averageScore = averageScore($identifier);
 $userComments = getUserComments($identifier);
 $movieDirectors = getMovieDirectors($identifier);
+$movieGenres = getMovieGenres($identifier);
 ?>
 
 <html>
@@ -142,7 +160,6 @@ if ($movieInformation === "failed") {
             <td>Year</td>
             <td>Rating</td>
             <td>Company</td>
-            <td>Genre</td>
         </tr>
         </thead>
 
@@ -159,6 +176,15 @@ if ($movieInformation === "failed") {
         </tbody>
     </table>
 <?php
+}
+
+
+if ($movieGenres === "failed") {
+} else if (!empty($movieGenres)) {
+    print '<h3>Genres:</h3>';
+    foreach ($movieGenres as $g) {
+        print "<p>$g</p>";
+    }
 }
 
 if ($movieDirectors === "failed") {
