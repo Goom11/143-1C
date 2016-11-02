@@ -81,11 +81,31 @@ function getUserComments($identifier) {
     return array();
 }
 
+function getMovieDirectors($identifier) {
+    if ($identifier) {
+        $query = "SELECT * FROM Movie M, MovieDirector MD, Director D" .
+        " WHERE M.id = MD.mid AND MD.did = D.id AND M.id = " . $identifier . ";";
+        $queryResult = runQuery($query);
+        if ($queryResult === "failed") {
+            return "failed";
+        }
+        $queryRows = getAllRows($queryResult);
+        $directors = array();
+        foreach ($queryRows as $row) {
+            $directors[] = $row["first"] . " " . $row["last"];
+        }
+        $queryResult->free();
+        return $directors;
+    }
+    return array();
+}
+
 $identifier = $_GET["identifier"];
 $movieInformation = movieInformation($identifier);
 $actorsInMovie = actorsInMovie($identifier);
 $averageScore = averageScore($identifier);
 $userComments = getUserComments($identifier);
+$movieDirectors = getMovieDirectors($identifier);
 ?>
 
 <html>
@@ -138,12 +158,18 @@ if ($movieInformation === "failed") {
         </tr>
         </tbody>
     </table>
-    <br><hr>
 <?php
 }
 
+if ($movieDirectors === "failed") {
+} else if (!empty($movieDirectors)) {
+    print '<h3>Directors:</h3>';
+    foreach ($movieDirectors as $d) {
+        print "<p>$d</p>";
+    }
+}
 
-
+print '<br><hr>';
 
 if ($actorsInMovie === "failed") {
     print '<h2>Invalid Identifier</h2>';
