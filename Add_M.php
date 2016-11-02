@@ -89,8 +89,6 @@ if ($title && $company && $year && $rating && $genre) {
         exit();
     }
 
-    var_dump($genre);
-
     // Establish database connection
     $db = new mysqli('localhost', 'cs143', '', 'CS143');
     if($db->connect_errno > 0){
