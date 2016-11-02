@@ -126,10 +126,13 @@ if (!empty($_GET)) {
         }
         print '</tr>';
         while($row = $rs->fetch_assoc()) {
+            $mid = $row["id"];
             print '<tr align=center>';
             foreach($row as $_ => $value) {
                 print '<td>';
+                print "<a href='Show_M.php?identifier=$mid'>";
                 print $value;
+                print '</a>';
                 print '</td>';
             }
             print '</tr>';
