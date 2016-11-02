@@ -4,7 +4,8 @@ include 'Helpers.php';
 
 function movieInformation($identifier) {
     if ($identifier) {
-        $query = "SELECT * FROM Movie WHERE id = " . $identifier . ';';
+        $query = "SELECT * FROM Movie M, MovieGenre MG" .
+            " WHERE M.id = MG.mid AND id = " . $identifier . ';';
         $queryResult = runQuery($query);
         if ($queryResult === "failed") {
             return "failed";
@@ -19,6 +20,7 @@ function movieInformation($identifier) {
             "year" => $queryRow["year"],
             "rating" => $queryRow["rating"],
             "company" => $queryRow["company"],
+            "genre" => $queryRow["genre"],
         );
         $queryResult->free();
         return $movieInformation;
@@ -106,6 +108,7 @@ $userComments = getUserComments($identifier);
 
 <div class="content">
     <hr>
+
 <?php
 if ($movieInformation === "failed") {
     print '<h2>Invalid Identifier</h2>';
@@ -119,6 +122,7 @@ if ($movieInformation === "failed") {
             <td>Year</td>
             <td>Rating</td>
             <td>Company</td>
+            <td>Genre</td>
         </tr>
         </thead>
 
@@ -135,12 +139,12 @@ if ($movieInformation === "failed") {
         </tbody>
     </table>
     <br><hr>
-<?php } ?>
-
-
-
-
 <?php
+}
+
+
+
+
 if ($actorsInMovie === "failed") {
     print '<h2>Invalid Identifier</h2>';
 } else if (!empty($actorsInMovie)) {
