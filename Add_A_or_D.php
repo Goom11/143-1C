@@ -108,15 +108,12 @@
             $directorInsert->bind_param("issss", $id, $lname, $fname, $dob, $dod);
             if (!$directorInsert->execute()) {
                 print $directorInsert->error;
-            }
-            else {
+            } else {
                 print "<h3>Insert of Director $fname $lname successful.</h3>";
             }
             $directorInsert->free_result();
         }
-
-
-
+        
         $db->close();
 
     }
