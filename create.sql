@@ -44,7 +44,7 @@ CREATE TABLE Director (
 CREATE TABLE MovieGenre (
   mid INT,
   genre VARCHAR(20),
-  PRIMARY KEY (mid), -- A MovieGenre's mid should be unique
+  PRIMARY KEY (mid, genre), -- A MovieGenre's mid should be unique
   FOREIGN KEY (mid) REFERENCES Movie(id) -- A MovieGenre's mid should exist as a Movie's id
 ) ENGINE = INNODB;
 
