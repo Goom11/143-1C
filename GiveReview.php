@@ -34,15 +34,26 @@ $formIsCompletelyFilled = $viewer && $score && $comment;
 <head>
     <?php $title = "IMDB: I(ncomplete and Dated) Movie DB" ?>
     <title><?php print "$title"; ?></title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 
 <body bgcolor=white>
-<h1><?php print "$title"; ?></h1>
+<a href="search.php"><h1><?php print "$title"; ?></h1></a>
+
+<nav>
+    <a href="./search.php">Search</a>
+    <a href="./Add_A_or_D.php">Add Actor or Director</a>
+    <a href="./Add_M.php">Add Movie</a>
+    <a href="./Add_A_M_relation.php">Add Actor/Movie Relation</a>
+    <a href="./Add_D_M_relation.php">Add Director/Movie Relation</a>
+</nav>
 
 <?php var_dump($movieTitle); ?>
 <?php var_dump($formIsUnfilled); ?>
 
+<div class="content">
+    <hr>
 <?php
 if ($movieID) {
 ?>
@@ -119,5 +130,6 @@ if ($movieID) {
 }
 ?>
 
+</div>
 </body>
 </html>

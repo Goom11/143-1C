@@ -6,18 +6,29 @@ include "Helpers.php";
 <head>
     <?php $title = "IMDB: I(ncomplete and Dated) Movie DB" ?>
     <title><?php print "$title"; ?></title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 
 <body bgcolor=white>
-<h1><?php print "$title"; ?></h1>
+<a href="search.php"><h1><?php print "$title"; ?></h1></a>
 
-<h2>Add a new Actor or Director</h2>
+<nav>
+    <a href="./search.php">Search</a>
+    <a href="./Add_A_or_D.php">Add Actor or Director</a>
+    <a href="./Add_M.php">Add Movie</a>
+    <a href="./Add_A_M_relation.php">Add Actor/Movie Relation</a>
+    <a href="./Add_D_M_relation.php">Add Director/Movie Relation</a>
+</nav>
+
+<div class="content">
+    <hr>
+<h2>Add a new Movie</h2>
 <form action="./Add_M.php" method="GET">
-    Title <input type="text" name="title" size="20">
-    Company <input type="text" name="company" size="20">
-    Year <input type="number" name="year" size="20">
-    MPAA Rating
+    <p> Title <input type="text" name="title" size="80"> </p>
+    <p> Company <input type="text" name="company" size="20"> </p>
+    <p> Year <input type="number" name="year" size="20"> </p>
+    <p> MPAA Rating
     <select name="rating">
         <option> G </option>
         <option> PG </option>
@@ -25,8 +36,8 @@ include "Helpers.php";
         <option> R </option>
         <option> NC-17 </option>
         <option> Unrated </option>
-    </select>
-    Genre <input type="text" name="genre">
+    </select> </p>
+    <p> Genre <input type="text" name="genre"> </p>
     <input type="submit" value="Add">
 </form>
 
@@ -119,6 +130,6 @@ else if (!empty($_GET)) {
 
 
 ?>
-
+</div>
 </body>
 </html>

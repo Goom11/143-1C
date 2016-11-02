@@ -6,15 +6,26 @@ include "Helpers.php";
 <head>
     <?php $title = "IMDB: I(ncomplete and Dated) Movie DB" ?>
     <title><?php print "$title"; ?></title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 
 <body bgcolor=white>
-<h1><?php print "$title"; ?></h1>
+<a href="search.php"><h1><?php print "$title"; ?></h1></a>
 
-<h2>Add a Director Movie Relation</h2>
+<nav>
+    <a href="./search.php">Search</a>
+    <a href="./Add_A_or_D.php">Add Actor or Director</a>
+    <a href="./Add_M.php">Add Movie</a>
+    <a href="./Add_A_M_relation.php">Add Actor/Movie Relation</a>
+    <a href="./Add_D_M_relation.php">Add Director/Movie Relation</a>
+</nav>
+
+<div class="content">
+    <hr>
+<h2>Add a new Director/Movie Relation</h2>
 <form action="./Add_D_M_relation.php" method="GET">
-    Select Movie
+    <p> Select Movie
     <select name="movieID">
         <?php
         $queryResult = runQuery("SELECT * FROM Movie;");
@@ -29,8 +40,8 @@ include "Helpers.php";
             print "<option value='$id'> $title ($year) </option>";
         }
         ?>
-    </select>
-    Select Director
+    </select> </p>
+    <p> Select Director
     <select name="directorID">
         <?php
         $queryResult = runQuery("SELECT * FROM Director;");
@@ -45,7 +56,7 @@ include "Helpers.php";
             print "<option value='$id'> $first $last ($dob) </option>";
         }
         ?>
-    </select>
+    </select> </p>
     <input type="submit" value="Add">
 </form>
 
@@ -94,6 +105,6 @@ else if (!empty($_GET)) {
 
 
 ?>
-
+</div>
 </body>
 </html>

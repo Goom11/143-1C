@@ -6,24 +6,35 @@
 <head>
     <?php $title = "IMDB: I(ncomplete and Dated) Movie DB" ?>
     <title><?php print "$title"; ?></title>
+    <link rel="stylesheet" type="text/css" href="./style.css">
 </head>
 
 
 <body bgcolor=white>
-<h1><?php print "$title"; ?></h1>
+<a href="search.php"><h1><?php print "$title"; ?></h1></a>
 
+<nav>
+    <a href="./search.php">Search</a>
+    <a href="./Add_A_or_D.php">Add Actor or Director</a>
+    <a href="./Add_M.php">Add Movie</a>
+    <a href="./Add_A_M_relation.php">Add Actor/Movie Relation</a>
+    <a href="./Add_D_M_relation.php">Add Director/Movie Relation</a>
+</nav>
+
+<div class="content">
+    <hr>
 <h2>Add a new Actor or Director</h2>
 <form action="./Add_A_or_D.php" method="GET">
     <select name="pType">
         <option> Actor </option>
         <option> Director </option>
     </select>
-    First Name <input type="text" name="fname" size="20">
-    Last Name <input type="text" name="lname" size="20">
-    Male <input type="radio" name="sex" value="Male" checked>
-    Female <input type="radio" name="sex" value="Female">
-    Date of Birth <input type="date" name="dob">
-    Date of Death (may be blank) <input type="date" name="dod">
+    <p> First Name <input type="text" name="fname" size="20"> </p>
+    <p> Last Name <input type="text" name="lname" size="20"> </p>
+    <p> Male <input type="radio" name="sex" value="Male" checked>
+     Female <input type="radio" name="sex" value="Female"> </p>
+    <p> Date of Birth <input type="date" name="dob"> </p>
+    <p> Date of Death (may be blank) <input type="date" name="dod"> </p>
     <input type="submit" value="Add">
 </form>
 
@@ -115,6 +126,6 @@
 
 
 ?>
-
+</div>
 </body>
 </html>
