@@ -26,8 +26,8 @@
 <h2>Add a new Actor or Director</h2>
 <form action="./Add_A_or_D.php" method="GET">
     <select name="pType">
-        <option> Actor </option>
-        <option> Director </option>
+        <option>Actor</option>
+        <option>Director</option>
     </select>
     <p> First Name <input type="text" name="fname" size="20"> </p>
     <p> Last Name <input type="text" name="lname" size="20"> </p>
@@ -90,18 +90,35 @@
 
         $id = nextPersonID();
 
-        $actorInsert = "INSERT INTO $pType VALUES (?, ?, ?, ?, ?, ?)";
-        $actorInsert = $db->prepare($actorInsert);
-        $actorInsert->bind_param("isssss", $id, $lname, $fname, $sex, $dob, $dod);
-        if (!$actorInsert->execute()) {
-            print $actorInsert->error;
+        if ($pType == "Actor") {
+            $actorInsert = "INSERT INTO $pType VALUES (?, ?, ?, ?, ?, ?)";
+            $actorInsert = $db->prepare($actorInsert);
+            $actorInsert->bind_param("isssss", $id, $lname, $fname, $sex, $dob, $dod);
+            if (!$actorInsert->execute()) {
+                print $actorInsert->error;
+            }
+            else {
+                print "<h3>Insert of Actor $fname $lname successful.</h3>";
+            }
+            $actorInsert->free_result();
         }
         else {
-            print "<h3>Insert of $pType $fname $lname successful.</h3>";
+            $directorInsert = "INSERT INTO Director VALUES (?, ?, ?, ?, ?)";
+            $directorInsert = $db->prepare($directorInsert);
+            $directorInsert->bind_param("issss", $id, $lname, $fname, $dob, $dod);
+            if (!$directorInsert->execute()) {
+                print $directorInsert->error;
+            }
+            else {
+                print "<h3>Insert of Director $fname $lname successful.</h3>";
+            }
+            $directorInsert->free_result();
         }
 
+
+
         $db->close();
-        $actorInsert->free_result();
+
     }
 
     else if (!empty($_GET)) {
