@@ -32,7 +32,6 @@ include "Helpers.php";
         $queryRows = getAllRows($queryResult);
         $queryResult->free();
 
-        var_dump($queryResult);
         foreach ($queryRows as $movie) {
             $id = $movie["id"];
             $title = $movie["title"];

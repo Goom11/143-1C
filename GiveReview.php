@@ -49,9 +49,6 @@ $formIsCompletelyFilled = $viewer && $score && $comment;
     <a href="./Add_D_M_relation.php">Add Director/Movie Relation</a>
 </nav>
 
-<?php var_dump($movieTitle); ?>
-<?php var_dump($formIsUnfilled); ?>
-
 <div class="content">
     <hr>
 <?php

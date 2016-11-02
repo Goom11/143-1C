@@ -93,7 +93,6 @@
         $actorInsert = "INSERT INTO $pType VALUES (?, ?, ?, ?, ?, ?)";
         $actorInsert = $db->prepare($actorInsert);
         $actorInsert->bind_param("isssss", $id, $lname, $fname, $sex, $dob, $dod);
-        var_dump($actorInsert);
         if (!$actorInsert->execute()) {
             print $actorInsert->error;
         }
