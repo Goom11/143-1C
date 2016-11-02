@@ -114,7 +114,7 @@ if ($title && $company && $year && $rating && $genre) {
     foreach ($genre as $elem) {
         $genreInsert = "INSERT INTO MovieGenre VALUES (?, ?)";
         $genreInsert = $db->prepare($genreInsert);
-        $genreInsert->bind_param("is", $id, $genre);
+        $genreInsert->bind_param("is", $id, $elem);
 
         if (!$genreInsert->execute()) {
             print "Error inserting movie genre: ";
